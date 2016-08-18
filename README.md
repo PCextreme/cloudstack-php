@@ -12,6 +12,22 @@ The following versions of PHP are supported.
 * PHP 5.6
 * PHP 7.0
 
+## Installation
+
+You can use `composer require` to add the client to your `composer.json` file.
+
+```
+$ composer require pcextreme/cloudstack
+```
+
+Or modify your `composer.json` and add the client to your `require` block followed by running `composer update`.
+
+```
+"require": {
+    "pcextreme/cloudstack": "~0.1"
+}
+```
+
 ## Usage
 
 There are various ways to interact with the Cloudstack API using this package. The easiest and preferred way is to call the Cloudstack 'commands' directly as a method on the client.
