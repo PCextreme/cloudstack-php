@@ -45,12 +45,6 @@ abstract class AbstractClient
      */
     public function __construct(array $options = [], array $collaborators = [])
     {
-        foreach ($options as $option => $value) {
-            if (property_exists($this, $option)) {
-                $this->{$option} = $value;
-            }
-        }
-
         if (empty($collaborators['requestFactory'])) {
             $collaborators['requestFactory'] = new RequestFactory();
         }
