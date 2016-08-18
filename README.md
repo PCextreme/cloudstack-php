@@ -1,8 +1,15 @@
-![github-readme_header](https://cloud.githubusercontent.com/assets/2406615/17754363/6e205280-64d4-11e6-946d-e7e7aedb2e30.png)
+[![github-readme_header](https://cloud.githubusercontent.com/assets/2406615/17754363/6e205280-64d4-11e6-946d-e7e7aedb2e30.png)](https://www.pcextreme.nl)
 
 # PHP Cloudstack Client
 
+[![Latest Version](https://img.shields.io/github/tag/PCextreme/cloudstack-php.svg?style=flat-square)](https://github.com/PCextreme/cloudstack-php/tags)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/PCextreme/cloudstack-php/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://travis-ci.org/PCextreme/cloudstack-php)
+[![Coverage Status](https://img.shields.io/coveralls/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://coveralls.io/r/PCextreme/cloudstack-php?branch=master)
+
 This package makes it simple to integrate Cloudstack in your PHP applications.
+
+---
 
 ## Requirements
 
@@ -11,6 +18,7 @@ The following versions of PHP are supported.
 * PHP 5.5
 * PHP 5.6
 * PHP 7.0
+* HHVM
 
 ## Installation
 
