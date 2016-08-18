@@ -16,3 +16,6 @@ script:
   - mkdir -p build/logs
   - ./vendor/bin/phpunit --coverage-text
   - ./vendor/bin/phpcs src --standard=psr2 -sp
+
+after_script:
+  - php vendor/bin/coveralls
