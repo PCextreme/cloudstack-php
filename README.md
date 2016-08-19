@@ -5,6 +5,7 @@
 [![Latest Version](https://img.shields.io/github/tag/PCextreme/cloudstack-php.svg?style=flat-square)](https://github.com/PCextreme/cloudstack-php/tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/PCextreme/cloudstack-php/blob/master/LICENSE)
 [![Build Status](https://img.shields.io/travis/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://travis-ci.org/PCextreme/cloudstack-php)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/PCextreme/cloudstack-php/)
 [![Coverage Status](https://img.shields.io/coveralls/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://coveralls.io/r/PCextreme/cloudstack-php?branch=master)
 
 This package makes it simple to integrate Cloudstack in your PHP applications.
