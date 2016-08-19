@@ -3,6 +3,9 @@ filter:
         - 'bin/*'
         - 'test/*'
 
+checks:
+    php: true
+
 tools:
     php_code_sniffer:
         config:
