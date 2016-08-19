@@ -9,8 +9,6 @@
 
 This package makes it simple to integrate Cloudstack in your PHP applications.
 
----
-
 ## Requirements
 
 The following versions of PHP are supported.
