@@ -200,7 +200,7 @@ class Client extends AbstractClient
      */
     public function getCommandUrl($command, array $options = [])
     {
-        $base   = $this->getBaseApiUrl();
+        $base   = $this->urlApi;
         $params = $this->getCommandParameters($command, $options);
         $query  = $this->getCommandQuery($params);
 
@@ -219,7 +219,7 @@ class Client extends AbstractClient
         return array_merge($options, [
             'command'  => $command,
             'response' => 'json',
-            'apikey'   => $this->getApiKey(),
+            'apikey'   => $this->apiKey,
         ]);
     }
 
@@ -238,7 +238,7 @@ class Client extends AbstractClient
         $signature = rawurlencode(base64_encode(hash_hmac(
             'SHA1',
             strtolower($query),
-            $this->getSecretKey(),
+            $this->secretKey,
             true
         )));
 
@@ -285,36 +285,6 @@ class Client extends AbstractClient
     }
 
     /**
-     * Returns the base URL for API requests.
-     *
-     * @return string
-     */
-    public function getBaseApiUrl()
-    {
-        return $this->urlApi;
-    }
-
-    /**
-     * Returns the API key.
-     *
-     * @return string
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * Returns the secret key.
-     *
-     * @return string
-     */
-    public function getSecretKey()
-    {
-        return $this->secretKey;
-    }
-
-    /**
      * Appends a query string to a URL.
      *
      * @param  string  $url
@@ -353,6 +323,12 @@ class Client extends AbstractClient
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
+        // Cloudstack returns multidimensional responses, keyed with the
+        // command name. To handle errors in a generic way we need to 'reset'
+        // the data array. To prevent strings from breaking this we ensure we
+        // have an array to begin with.
+        $data = is_array($data) ? $data : [$data];
+
         if (isset(reset($data)[$this->responseError])) {
             $error = reset($data)[$this->responseError];
             $code  = $this->responseCode ? reset($data)[$this->responseCode] : 0;

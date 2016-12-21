@@ -40,11 +40,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLogoIsPrependedToGetHelp()
+    public function testGetHelpStartsWithLogo()
     {
         $application = new Application;
-        $this->assertEquals(
-            $this->logo . sprintf('<info>%s</info>', $this->name),
+        $this->assertStringStartsWith(
+            $this->logo,
             $application->getHelp()
         );
     }
