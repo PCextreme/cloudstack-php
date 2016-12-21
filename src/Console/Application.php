@@ -19,8 +19,6 @@ class Application extends BaseApplication
 
     /**
      * Create a new instance of the application.
-     *
-     * @return void
      */
     public function __construct()
     {

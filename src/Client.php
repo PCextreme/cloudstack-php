@@ -22,16 +22,6 @@ class Client extends AbstractClient
     /**
      * @var string
      */
-    private $urlClient;
-
-    /**
-     * @var string
-     */
-    private $urlConsole;
-
-    /**
-     * @var string
-     */
     protected $apiKey;
 
     /**
@@ -60,7 +50,6 @@ class Client extends AbstractClient
      *     An array of collaborators that may be used to override
      *     this provider's default behavior. Collaborators include
      *     `requestFactory` and `httpClient`.
-     * @return void
      */
     public function __construct(array $options = [], array $collaborators = [])
     {
@@ -276,7 +265,7 @@ class Client extends AbstractClient
     /**
      * Set Cloudstack Client API list.
      *
-     * @param  array  $list
+     * @param  array  $apiList
      * @return void
      */
     public function setApiList(array $apiList)

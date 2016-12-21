@@ -10,6 +10,8 @@ class MockClient extends AbstractClient
 {
     protected function checkResponse(ResponseInterface $response, $data)
     {
+        $data = is_array($data) ? $data : [$data];
+
         if (isset(reset($data)['errortext'])) {
             throw new ClientException(reset($data)['errortext'], reset($data)['errorcode'], $data);
         }

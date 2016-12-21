@@ -52,8 +52,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $options = [
             'apiList' => '/../cache/api_list.php',
-            'urlClient' => 'https://example.com/client',
-            'urlConsole' => 'https://example.com/client/console',
             'responseError' => 'errortext',
             'responseCode' => 'errorcode',
         ];

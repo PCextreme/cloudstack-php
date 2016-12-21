@@ -41,7 +41,6 @@ abstract class AbstractClient
      *     An array of collaborators that may be used to override
      *     this provider's default behavior. Collaborators include
      *     `requestFactory` and `httpClient`.
-     * @return void
      */
     public function __construct(array $options = [], array $collaborators = [])
     {
