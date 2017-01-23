@@ -4,11 +4,14 @@ namespace PCextreme\Cloudstack;
 
 use InvalidArgumentException;
 use PCextreme\Cloudstack\Exception\ClientException;
+use PCextreme\Cloudstack\Util\UrlHelpersTrait;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
 class Client extends AbstractClient
 {
+    use UrlHelpersTrait;
+
     /**
      * @var array
      */
@@ -18,6 +21,16 @@ class Client extends AbstractClient
      * @var string
      */
     private $urlApi;
+
+    /**
+     * @var string
+     */
+    private $urlClient;
+
+    /**
+     * @var string
+     */
+    private $urlConsole;
 
     /**
      * @var string
@@ -32,12 +45,22 @@ class Client extends AbstractClient
     /**
      * @var string
      */
+    protected $ssoKey;
+
+    /**
+     * @var string
+     */
     private $responseError = 'errortext';
 
     /**
      * @var string
      */
     private $responseCode = 'errorcode';
+
+    /**
+     * @var bool
+     */
+    private $ssoEnabled = false;
 
     /**
      * Constructs a new Cloudstack client instance.
@@ -79,6 +102,7 @@ class Client extends AbstractClient
             'apiList',
             'urlClient',
             'urlConsole',
+            'ssoKey',
             'responseError',
             'responseCode',
         ]);
@@ -220,16 +244,26 @@ class Client extends AbstractClient
      */
     protected function signCommandParameters(array $params = [])
     {
+        if ($this->isSsoEnabled() && is_null($this->ssoKey)) {
+            throw new InvalidArgumentException(
+                'Required options not defined: ssoKey'
+            );
+        }
+
         ksort($params);
 
         $query = $this->buildQueryString($params);
 
+        $key = $this->isSsoEnabled() ? $this->ssoKey : $this->secretKey;
         $signature = rawurlencode(base64_encode(hash_hmac(
             'SHA1',
             strtolower($query),
-            $this->secretKey,
+            $key,
             true
         )));
+
+        // Reset SSO signing for the next request.
+        $this->ssoEnabled = false;
 
         // To prevent the signature from being escaped we simply append
         // the signature to the previously build query.
@@ -324,6 +358,28 @@ class Client extends AbstractClient
 
             throw new ClientException($error, $code, $data);
         }
+    }
+
+    /**
+     * Enable SSO key signing for the next request.
+     *
+     * @param  bool  $enable
+     * @return self
+     */
+    public function enableSso($enable = true)
+    {
+        $this->ssoEnabled = $enable;
+
+        return $this;
+    }
+    /**
+     * Determine if SSO signing is enabled.
+     *
+     * @return bool
+     */
+    public function isSsoEnabled()
+    {
+        return $this->ssoEnabled;
     }
 
     /**
