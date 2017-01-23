@@ -31,7 +31,7 @@ Or modify your `composer.json` and add the client to your `require` block follow
 
 ```
 "require": {
-    "pcextreme/cloudstack": "~0.1"
+    "pcextreme/cloudstack": "~0.2"
 }
 ```
 
