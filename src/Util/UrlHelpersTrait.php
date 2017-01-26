@@ -29,6 +29,7 @@ trait UrlHelpersTrait
             'command'   => $command,
             'username'  => $username,
             'domainid'  => $domainId,
+            'timestamp' => round(microtime(true) * 1000),
             'response'  => 'json',
         ];
 
