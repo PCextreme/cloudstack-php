@@ -6,6 +6,46 @@ use PCextreme\Cloudstack\Exception\ClientException;
 trait UrlHelpersTrait
 {
     /**
+     * Generate Client URL for specified username.
+     *
+     * @param  string  $username
+     * @param  string  $domainId
+     * @return string
+     * @throws \InvalidArgumentEception
+     */
+    public function clientUrl($username, $domainId)
+    {
+        if (is_null($this->urlClient)) {
+            throw new InvalidArgumentException(
+                'Required options not defined: urlClient'
+            );
+        }
+
+        // Prepare session.
+        // Using the SSO (Single Sign On) key we can generate a sessionkey used for the console url.
+        $command = 'login';
+        $params = [
+            'command'   => $command,
+            'username'  => $username,
+            'domainid'  => $domainId,
+            'timestamp' => round(microtime(true) * 1000),
+            'response'  => 'json',
+        ];
+
+        $method  = $this->getCommandMethod($command);
+        $query   = $this->enableSso()->getCommandQuery($params);
+
+        $params = [
+            'loginUrl' => urlencode($query),
+        ];
+
+        $base = $this->urlClient;
+        $query  = $this->getCommandQuery($params);
+
+        return $this->appendQuery($base, $query);
+    }
+
+    /**
      * Generate Console URL for specified username owning the virtual machine.
      *
      * @param  string  $username
