@@ -35,14 +35,7 @@ trait UrlHelpersTrait
         $method  = $this->getCommandMethod($command);
         $query   = $this->enableSso()->getCommandQuery($params);
 
-        $params = [
-            'loginUrl' => urlencode($query),
-        ];
-
-        $base = $this->urlClient;
-        $query  = $this->getCommandQuery($params);
-
-        return $this->appendQuery($base, $query);
+        return $this->urlClient.'?loginUrl='.urlencode($query);
     }
 
     /**
