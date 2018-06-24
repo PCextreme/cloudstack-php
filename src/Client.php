@@ -257,7 +257,7 @@ class Client extends AbstractClient
         $key = $this->isSsoEnabled() ? $this->ssoKey : $this->secretKey;
         $signature = rawurlencode(base64_encode(hash_hmac(
             'SHA1',
-            strtolower($query),
+            strtolower(urldecode($query)),
             $key,
             true
         )));
@@ -333,7 +333,47 @@ class Client extends AbstractClient
      */
     protected function buildQueryString(array $params)
     {
+        // We need to modify the nested array keys to get them accepted by Cloudstack.
+        // For example 'details[0][key]' should resolve to 'details[0].key'.
+        array_walk($params, function (&$value, $key) {
+            if (is_array($value)) {
+                $parsedParams = [];
+
+                foreach ($value as $index => $entry) {
+                    $parsedParams[] = [
+                        $key.'['.$index.']'.'.key' => $entry['key'],
+                        $key.'['.$index.']'.'.value' => $entry['value'],
+                    ];
+                }
+
+                $value = $parsedParams;
+            }
+        });
+
+        $params = $this->flattenParams($params);
+
         return http_build_query($params, false, '&', PHP_QUERY_RFC3986);
+    }
+
+    /**
+     * Flatten query params.
+     *
+     * @param  array  $params
+     * @return array
+     */
+    protected static function flattenParams(array $params)
+    {
+        $result = [];
+
+        foreach ($params as $key => $value) {
+            if (! is_array($value)) {
+                $result[$key] = $value;
+            } else {
+                $result = array_merge($result, static::flattenParams($value));
+            }
+        }
+
+        return $result;
     }
 
     /**
