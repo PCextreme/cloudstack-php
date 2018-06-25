@@ -133,9 +133,9 @@ class Client extends AbstractClient
     {
         $missing = array_diff_key(array_flip($this->getRequiredOptions()), $options);
 
-        if (! empty($missing)) {
+        if (!empty($missing)) {
             throw new InvalidArgumentException(
-                'Required options not defined: ' . implode(', ', array_keys($missing))
+                'Required options not defined: '.implode(', ', array_keys($missing))
             );
         }
     }
@@ -163,14 +163,14 @@ class Client extends AbstractClient
     {
         $apiList = $this->getApiList();
 
-        if (! array_key_exists($command, $apiList)) {
+        if (!array_key_exists($command, $apiList)) {
             throw new RuntimeException(
                 "Call to unsupported API command [{$command}], this call is not present in the API list."
             );
         }
 
         foreach ($apiList[$command]['params'] as $key => $value) {
-            if (! array_key_exists($key, $options) && (bool) $value['required']) {
+            if (!array_key_exists($key, $options) && (bool) $value['required']) {
                 throw new InvalidArgumentException(
                     "Missing argument [{$key}] for command [{$command}] must be of type [{$value['type']}]."
                 );
@@ -267,7 +267,7 @@ class Client extends AbstractClient
 
         // To prevent the signature from being escaped we simply append
         // the signature to the previously build query.
-        return $query . '&signature=' . $signature;
+        return $query.'&signature='.$signature;
     }
 
     /**
@@ -282,9 +282,9 @@ class Client extends AbstractClient
     public function getApiList()
     {
         if (is_null($this->apiList)) {
-            $path = __DIR__ . '/../cache/api_list.php';
+            $path = __DIR__.'/../cache/api_list.php';
 
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 throw new RuntimeException(
                     "Cloudstack Client API list not found. This file needs to be generated before using the client."
                 );
@@ -319,7 +319,7 @@ class Client extends AbstractClient
         $query = trim($query, '?&');
 
         if ($query) {
-            return $url . '?' . $query;
+            return $url.'?'.$query;
         }
 
         return $url;
@@ -335,7 +335,7 @@ class Client extends AbstractClient
     {
         // We need to modify the nested array keys to get them accepted by Cloudstack.
         // For example 'details[0][key]' should resolve to 'details[0].key'.
-        array_walk($params, function (&$value, $key) {
+        array_walk($params, function(&$value, $key) {
             if (is_array($value)) {
                 $parsedParams = [];
 
@@ -366,7 +366,7 @@ class Client extends AbstractClient
         $result = [];
 
         foreach ($params as $key => $value) {
-            if (! is_array($value)) {
+            if (!is_array($value)) {
                 $result[$key] = $value;
             } else {
                 $result = array_merge($result, static::flattenParams($value));
