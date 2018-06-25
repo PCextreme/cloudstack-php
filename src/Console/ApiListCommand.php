@@ -51,7 +51,7 @@ class ApiListCommand extends Command
         $request = $client->getRequest($method, $url, []);
 
         $list = $client->getResponse($request);
-        $this->processList($input, $output, $list);
+        $this->processList($output, $list);
     }
 
     /**
@@ -118,12 +118,11 @@ class ApiListCommand extends Command
     /**
      * Dump cache file of APIs list.
      *
-     * @param  InputInterface   $input
      * @param  OutputInterface  $output
      * @param  array            $list
      * @return void
      */
-    protected function processList(InputInterface $input, OutputInterface $output, array $list = [])
+    protected function processList(OutputInterface $output, array $list = [])
     {
         if (empty($list)) {
             throw new \RuntimeException("API list is empty.");
