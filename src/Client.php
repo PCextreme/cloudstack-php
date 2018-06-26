@@ -257,7 +257,7 @@ class Client extends AbstractClient
         $key = $this->isSsoEnabled() ? $this->ssoKey : $this->secretKey;
         $signature = rawurlencode(base64_encode(hash_hmac(
             'SHA1',
-            strtolower(urldecode($query)),
+            strtolower($query),
             $key,
             true
         )));
@@ -350,9 +350,15 @@ class Client extends AbstractClient
             }
         });
 
-        $params = $this->flattenParams($params);
+        // Next we flatten the params array and prepare the query params. We need
+        // to encode the values, but we can't encode the keys. This would otherwise
+        // compromise the signature. Therefore we can't use http_build_query().
+        $queryParams = $this->flattenParams($params);
+        array_walk($queryParams, function(&$value, $key) {
+            $value = $key.'='.rawurlencode($value);
+        });
 
-        return http_build_query($params, false, '&', PHP_QUERY_RFC3986);
+        return implode('&', $queryParams);
     }
 
     /**
