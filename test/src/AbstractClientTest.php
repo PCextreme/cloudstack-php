@@ -2,13 +2,15 @@
 
 namespace PCextreme\Cloudstack\Test;
 
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
 use PCextreme\Cloudstack\AbstractClient;
-use PCextreme\Cloudstack\RequestFactory;
 use PCextreme\Cloudstack\Exception\ClientException;
+use PCextreme\Cloudstack\RequestFactory;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\ClientInterface;
 
 use Mockery as m;
 
@@ -78,6 +80,69 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains('verify', $config);
         $this->assertFalse($config['verify']);
+    }
+
+    public function testGetRequest()
+    {
+        $mockAdapter = m::mock(RequestFactory::class);
+        $mockAdapter->shouldReceive('getRequestWithOptions')->andReturn([]);
+
+        $client = new MockClient([], ['requestFactory' => $mockAdapter]);
+
+        $method = $this->getMethod(MockClient::class, 'getRequest');
+        $request = $method->invokeArgs($client, ['GET', 'mock-url', []]);
+
+        $this->assertSame([], $request);
+    }
+
+    public function testSendRequestSuccess()
+    {
+        $mockRequest = m::mock(RequestInterface::class);
+        $mockResponse = m::mock(ResponseInterface::class);
+
+        $mockAdapter = m::mock(HttpClient::class);
+        $mockAdapter->shouldReceive('send')->andReturn($mockResponse);
+
+        $client = new MockClient([], ['httpClient' => $mockAdapter]);
+
+        $method = $this->getMethod(MockClient::class, 'sendRequest');
+        $response = $method->invokeArgs($client, [$mockRequest]);
+
+        $this->assertSame($mockResponse, $response);
+    }
+
+    public function testSendRequestException()
+    {
+        $mockRequest = m::mock(RequestInterface::class);
+        $mockResponse = m::mock(ResponseInterface::class);
+        $mockResponse->shouldReceive('getStatusCode')->andReturn(500);
+        $mockException = m::mock(BadResponseException::class, ['msg', $mockRequest, $mockResponse]);
+        $mockException->shouldReceive('getResponse')->andReturn($mockResponse);
+
+        $mockAdapter = m::mock(HttpClient::class);
+        $mockAdapter->shouldReceive('send')->andThrow($mockException);
+
+        $client = new MockClient([], ['httpClient' => $mockAdapter]);
+
+        $method = $this->getMethod(MockClient::class, 'sendRequest');
+        $response = $method->invokeArgs($client, [$mockRequest]);
+
+        $this->assertSame($mockResponse, $response);
+    }
+
+    public function testGetResponse()
+    {
+        $mockRequest = m::mock(RequestInterface::class);
+        $mockResponse = m::mock(ResponseInterface::class);
+
+        $client = m::mock(MockClient::class.'[sendRequest,parseResponse,checkResponse]');
+        $client->shouldAllowMockingProtectedMethods();
+        $client->shouldReceive('sendRequest')->with($mockRequest)->andReturn($mockResponse);
+        $client->shouldReceive('parseResponse')->with($mockResponse)->andReturn('Response');
+        $client->shouldReceive('checkResponse')->with($mockResponse, 'Response');
+
+        $parsedResponse = $client->getResponse($mockRequest);
+        $this->assertSame('Response', $parsedResponse);
     }
 
     private function getMethod($class, $name)
