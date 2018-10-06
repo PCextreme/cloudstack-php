@@ -17,6 +17,7 @@ script:
   - ./vendor/bin/phpunit --coverage-text
   - ./vendor/bin/phpcs src --standard=psr2 -sp
   - ./vendor/infection/infection/bin/infection --threads=4 --min-covered-msi=50
+  - ./vendor/phpstan/phpstan/bin/phpstan analyze src --level=3
 
 after_script:
   - php vendor/bin/coveralls

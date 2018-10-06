@@ -3,6 +3,7 @@
 namespace PCextreme\Cloudstack;
 
 use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Used to produce PSR-7 Request instances.
@@ -14,11 +15,11 @@ class RequestFactory
     /**
      * Creates a PSR-7 Request instance.
      *
-     * @param  null|string                      $method   HTTP method for the request.
-     * @param  null|string                      $uri      URI for the request.
-     * @param  array                            $headers  Headers for the message.
-     * @param  string|resource|StreamInterface  $body     Message body.
-     * @param  string                           $version  HTTP protocol version.
+     * @param  null|string                     $method  HTTP method for the request.
+     * @param  null|string                     $uri     URI for the request.
+     * @param  array                           $headers Headers for the message.
+     * @param  string|resource|StreamInterface $body    Message body.
+     * @param  string                          $version HTTP protocol version.
      * @return Request
      */
     public function getRequest(
@@ -26,7 +27,7 @@ class RequestFactory
         $uri,
         array $headers = [],
         $body = null,
-        $version = '1.1'
+        string $version = '1.1'
     ) {
         return new Request($method, $uri, $headers, $body, $version);
     }
@@ -34,7 +35,7 @@ class RequestFactory
     /**
      * Parses simplified options.
      *
-     * @param  array  $options
+     * @param  array $options
      * @return array
      */
     protected function parseOptions(array $options)
@@ -52,9 +53,9 @@ class RequestFactory
     /**
      * Creates a request using a simplified array of options.
      *
-     * @param  null|string  $method
-     * @param  null|string  $uri
-     * @param  array        $options
+     * @param  null|string $method
+     * @param  null|string $uri
+     * @param  array       $options
      * @return Request
      */
     public function getRequestWithOptions($method, $uri, array $options = [])

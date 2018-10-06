@@ -35,9 +35,9 @@ abstract class AbstractClient
     /**
      * Constructs a new Cloudstack client instance.
      *
-     * @param  array  $options
+     * @param  array $options
      *     An array of options to set on this client.
-     * @param  array  $collaborators
+     * @param  array $collaborators
      *     An array of collaborators that may be used to override
      *     this provider's default behavior. Collaborators include
      *     `requestFactory` and `httpClient`.
@@ -62,7 +62,7 @@ abstract class AbstractClient
     /**
      * Return the list of options that can be passed to the HttpClient
      *
-     * @param  array  $options
+     * @param  array $options
      * @return array
      */
     protected function getAllowedClientOptions(array $options)
@@ -80,12 +80,12 @@ abstract class AbstractClient
     /**
      * Returns a PSR-7 request instance that is not authenticated.
      *
-     * @param  string  $method
-     * @param  string  $url
-     * @param  array   $options
+     * @param  string $method
+     * @param  string $url
+     * @param  array  $options
      * @return RequestInterface
      */
-    public function getRequest($method, $url, array $options = [])
+    public function getRequest(string $method, string $url, array $options = [])
     {
         return $this->createRequest($method, $url, $options);
     }
@@ -93,12 +93,12 @@ abstract class AbstractClient
     /**
      * Creates a PSR-7 request instance.
      *
-     * @param  string  $method
-     * @param  string  $url
-     * @param  array   $options
+     * @param  string $method
+     * @param  string $url
+     * @param  array  $options
      * @return RequestInterface
      */
-    protected function createRequest($method, $url, array $options)
+    protected function createRequest(string $method, string $url, array $options)
     {
         $factory = $this->getRequestFactory();
 
@@ -108,7 +108,7 @@ abstract class AbstractClient
     /**
      * Sends a request instance and returns a response instance.
      *
-     * @param  RequestInterface  $request
+     * @param  RequestInterface $request
      * @return ResponseInterface
      */
     protected function sendRequest(RequestInterface $request)
@@ -125,7 +125,7 @@ abstract class AbstractClient
     /**
      * Sends a request and returns the parsed response.
      *
-     * @param  RequestInterface  $request
+     * @param  RequestInterface $request
      * @return mixed
      */
     public function getResponse(RequestInterface $request)
@@ -141,11 +141,11 @@ abstract class AbstractClient
     /**
      * Attempts to parse a JSON response.
      *
-     * @param  string  $content
+     * @param  string $content
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function parseJson($content)
+    protected function parseJson(string $content)
     {
         $content = json_decode($content, true);
 
@@ -162,7 +162,7 @@ abstract class AbstractClient
     /**
      * Returns the content type header of a response.
      *
-     * @param  ResponseInterface  $response
+     * @param  ResponseInterface $response
      * @return string
      */
     protected function getContentType(ResponseInterface $response)
@@ -173,8 +173,8 @@ abstract class AbstractClient
     /**
      * Parses the response according to its content-type header.
      *
-     * @param  ResponseInterface  $response
-     * @return array
+     * @param  ResponseInterface $response
+     * @return mixed
      * @throws UnexpectedValueException
      */
     protected function parseResponse(ResponseInterface $response)
@@ -204,17 +204,17 @@ abstract class AbstractClient
     /**
      * Checks a provider response for errors.
      *
-     * @param  ResponseInterface  $response
-     * @param  array|string       $data
+     * @param  ResponseInterface $response
+     * @param  array|string      $data
      * @return void
-     * @throws \PCextreme\Cloudstack\Exceptions\ClientException
+     * @throws \PCextreme\Cloudstack\Exception\ClientException
      */
     abstract protected function checkResponse(ResponseInterface $response, $data);
 
     /**
      * Sets the request factory instance.
      *
-     * @param  RequestFactory  $factory
+     * @param  RequestFactory $factory
      * @return self
      */
     public function setRequestFactory(RequestFactory $factory)
@@ -237,7 +237,7 @@ abstract class AbstractClient
     /**
      * Sets the HTTP client instance.
      *
-     * @param  HttpClientInterface  $client
+     * @param  HttpClientInterface $client
      * @return self
      */
     public function setHttpClient(HttpClientInterface $client)

@@ -12,12 +12,12 @@ class ClientException extends Exception
     protected $response;
 
     /**
-     * @param  string        $message
-     * @param  int           $code
-     * @param  array|string  $response
+     * @param  string       $message
+     * @param  integer      $code
+     * @param  array|string $response
      * @return void
      */
-    public function __construct($message, $code, $response)
+    public function __construct(string $message, int $code, $response)
     {
         $this->response = $response;
 
