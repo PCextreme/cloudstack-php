@@ -135,7 +135,7 @@ class Client extends AbstractClient
 
         if (!empty($missing)) {
             throw new InvalidArgumentException(
-                'Required options not defined: '.implode(', ', array_keys($missing))
+                'Required options not defined: ' . implode(', ', array_keys($missing))
             );
         }
     }
@@ -275,7 +275,7 @@ class Client extends AbstractClient
 
         // To prevent the signature from being escaped we simply append
         // the signature to the previously build query.
-        return $query.'&signature='.$signature;
+        return $query . '&signature=' . $signature;
     }
 
     /**
@@ -290,7 +290,7 @@ class Client extends AbstractClient
     public function getApiList()
     {
         if (is_null($this->apiList)) {
-            $path = __DIR__.'/../cache/api_list.php';
+            $path = __DIR__ . '/../cache/api_list.php';
 
             if (!file_exists($path)) {
                 throw new RuntimeException(
@@ -327,7 +327,7 @@ class Client extends AbstractClient
         $query = trim($query, '?&');
 
         if ($query) {
-            return $url.'?'.$query;
+            return $url . '?' . $query;
         }
 
         return $url;
@@ -349,8 +349,8 @@ class Client extends AbstractClient
 
                 foreach ($value as $index => $entry) {
                     $parsedParams[] = [
-                        $key.'['.$index.']'.'.key' => $entry['key'],
-                        $key.'['.$index.']'.'.value' => $entry['value'],
+                        $key . '[' . $index . ']' . '.key' => $entry['key'],
+                        $key . '[' . $index . ']' . '.value' => $entry['value'],
                     ];
                 }
 
@@ -363,7 +363,7 @@ class Client extends AbstractClient
         // compromise the signature. Therefore we can't use http_build_query().
         $queryParams = $this->flattenParams($params);
         array_walk($queryParams, function (&$value, $key) {
-            $value = $key.'='.rawurlencode($value);
+            $value = $key . '=' . rawurlencode($value);
         });
 
         return implode('&', $queryParams);
