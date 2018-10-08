@@ -8,12 +8,12 @@ trait UrlHelpersTrait
     /**
      * Generate Client URL for specified username.
      *
-     * @param  string  $username
-     * @param  string  $domainId
+     * @param  string $username
+     * @param  string $domainId
      * @return string
-     * @throws \InvalidArgumentEception
+     * @throws InvalidArgumentException
      */
-    public function clientUrl($username, $domainId)
+    public function clientUrl(string $username, string $domainId)
     {
         if (is_null($this->urlClient)) {
             throw new InvalidArgumentException(
@@ -35,19 +35,19 @@ trait UrlHelpersTrait
         $method  = $this->getCommandMethod($command);
         $query   = $this->enableSso()->getCommandQuery($params);
 
-        return $this->urlClient.'?loginUrl='.urlencode($query);
+        return $this->urlClient . '?loginUrl=' . urlencode($query);
     }
 
     /**
      * Generate Console URL for specified username owning the virtual machine.
      *
-     * @param  string  $username
-     * @param  string  $domainId
-     * @param  string  $virtualMachineId
+     * @param  string $username
+     * @param  string $domainId
+     * @param  string $virtualMachineId
      * @return string
-     * @throws \InvalidArgumentEception
+     * @throws InvalidArgumentException
      */
-    public function consoleUrl($username, $domainId, $virtualMachineId)
+    public function consoleUrl(string $username, string $domainId, string $virtualMachineId)
     {
         if (is_null($this->urlConsole)) {
             throw new InvalidArgumentException(

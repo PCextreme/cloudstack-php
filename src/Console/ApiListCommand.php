@@ -26,9 +26,9 @@ class ApiListCommand extends Command
     /**
      * Executes the current command.
      *
-     * @param  InputInterface   $input
-     * @param  OutputInterface  $output
-     * @return null|int
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -57,8 +57,8 @@ class ApiListCommand extends Command
     /**
      * Ask for URL API.
      *
-     * @param  InputInterface   $input
-     * @param  OutputInterface  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @return string
      */
     protected function askUrlApi(InputInterface $input, OutputInterface $output)
@@ -74,8 +74,8 @@ class ApiListCommand extends Command
     /**
      * Ask for API key.
      *
-     * @param  InputInterface   $input
-     * @param  OutputInterface  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @return string
      */
     protected function askApiKey(InputInterface $input, OutputInterface $output)
@@ -96,8 +96,8 @@ class ApiListCommand extends Command
     /**
      * Ask for secret key.
      *
-     * @param  InputInterface   $input
-     * @param  OutputInterface  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @return string
      */
     protected function askSecretKey(InputInterface $input, OutputInterface $output)
@@ -118,8 +118,8 @@ class ApiListCommand extends Command
     /**
      * Dump cache file of APIs list.
      *
-     * @param  OutputInterface  $output
-     * @param  array            $list
+     * @param  OutputInterface $output
+     * @param  array           $list
      * @return void
      */
     protected function processList(OutputInterface $output, array $list = [])

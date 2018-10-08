@@ -43,7 +43,7 @@ class Application extends BaseApplication
     protected function getDefaultCommands()
     {
         $commands = array_merge(parent::getDefaultCommands(), [
-            new ApiListCommand,
+            new ApiListCommand(),
         ]);
 
         return $commands;
