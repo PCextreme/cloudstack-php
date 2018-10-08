@@ -8,31 +8,28 @@
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/PCextreme/cloudstack-php/)
 [![Coverage Status](https://img.shields.io/coveralls/PCextreme/cloudstack-php/master.svg?style=flat-square)](https://coveralls.io/r/PCextreme/cloudstack-php?branch=master)
 
-This package makes it simple to integrate Cloudstack in your PHP applications.
+This package makes it simple to integrate the Cloudstack API in your PHP applications.
 
 ## Requirements
 
-The following versions of PHP are supported.
+The following versions of PHP are supported:
 
-* PHP 5.5
-* PHP 5.6
-* PHP 7.0
-* HHVM
+* PHP 7.x
+
+### Support for PHP 5.x has been dropped
+
+In favour of stricter type hinting and return types we stopped supporting older PHP versions in new releases.
+
+**Please note:** General support for PHP 5.x will be ending soon, [check the PHP documentation](http://php.net/supported-versions.php) for more information about PHP version support.
+
+_If you still require support for PHP 5.x or HHVM you can use the `~0.2` [releases](/PCextreme/cloudstack-php/releases) of this package._
 
 ## Installation
 
-You can use `composer require` to add the client to your `composer.json` file.
+Use `composer require` to add the client to your `composer.json` file, [please check the Composer documentation](https://getcomposer.org) for more information about Composer.
 
 ```
 $ composer require pcextreme/cloudstack
-```
-
-Or modify your `composer.json` and add the client to your `require` block followed by running `composer update`.
-
-```
-"require": {
-    "pcextreme/cloudstack": "~0.2"
-}
 ```
 
 ## Usage
@@ -64,6 +61,10 @@ var_dump($client->listAccounts(['name' => 'admin', 'listall' => 'true']));
 Its also possible to bypass the `__call` magic method and call the `command` method directly.
 
 ```php
+<?php
+
+// Using an existing client instance.
+
 $client->command('listAccounts', ['name' => 'admin', 'listall' => 'true']);
 ```
 
@@ -72,6 +73,10 @@ $client->command('listAccounts', ['name' => 'admin', 'listall' => 'true']);
 If for some reason the `cache/api_list.php` is removed, outdated or gets corrupted you can access the API directly by building a request manually. This bypasses all previously mentioned checks but still parses the response.
 
 ```php
+<?php
+
+// Using an existing client instance.
+
 $command = 'listAccounts';
 $options = ['name' => 'admin', 'listall' => 'true'];
 
