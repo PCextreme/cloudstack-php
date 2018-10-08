@@ -63,7 +63,7 @@ abstract class AbstractClient
      * Return the list of options that can be passed to the HttpClient
      *
      * @param  array $options
-     * @return array
+     * @return string[]
      */
     protected function getAllowedClientOptions(array $options)
     {

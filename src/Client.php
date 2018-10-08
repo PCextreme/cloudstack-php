@@ -135,7 +135,7 @@ class Client extends AbstractClient
 
         if (!empty($missing)) {
             throw new InvalidArgumentException(
-                'Required options not defined: ' . implode(', ', array_keys($missing))
+                'Required options not defined: '.implode(', ', array_keys($missing))
             );
         }
     }
@@ -275,7 +275,7 @@ class Client extends AbstractClient
 
         // To prevent the signature from being escaped we simply append
         // the signature to the previously build query.
-        return $query . '&signature=' . $signature;
+        return $query.'&signature='.$signature;
     }
 
     /**
@@ -290,7 +290,7 @@ class Client extends AbstractClient
     public function getApiList()
     {
         if (is_null($this->apiList)) {
-            $path = __DIR__ . '/../cache/api_list.php';
+            $path = __DIR__.'/../cache/api_list.php';
 
             if (!file_exists($path)) {
                 throw new RuntimeException(
@@ -327,7 +327,7 @@ class Client extends AbstractClient
         $query = trim($query, '?&');
 
         if ($query) {
-            return $url . '?' . $query;
+            return $url.'?'.$query;
         }
 
         return $url;
@@ -343,14 +343,14 @@ class Client extends AbstractClient
     {
         // We need to modify the nested array keys to get them accepted by Cloudstack.
         // For example 'details[0][key]' should resolve to 'details[0].key'.
-        array_walk($params, function (&$value, $key) {
+        array_walk($params, function(&$value, $key) {
             if (is_array($value)) {
                 $parsedParams = [];
 
                 foreach ($value as $index => $entry) {
                     $parsedParams[] = [
-                        $key . '[' . $index . ']' . '.key' => $entry['key'],
-                        $key . '[' . $index . ']' . '.value' => $entry['value'],
+                        $key.'['.$index.']'.'.key' => $entry['key'],
+                        $key.'['.$index.']'.'.value' => $entry['value'],
                     ];
                 }
 
@@ -362,8 +362,8 @@ class Client extends AbstractClient
         // to encode the values, but we can't encode the keys. This would otherwise
         // compromise the signature. Therefore we can't use http_build_query().
         $queryParams = $this->flattenParams($params);
-        array_walk($queryParams, function (&$value, $key) {
-            $value = $key . '=' . rawurlencode($value);
+        array_walk($queryParams, function(&$value, $key) {
+            $value = $key.'='.rawurlencode($value);
         });
 
         return implode('&', $queryParams);
