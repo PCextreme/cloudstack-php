@@ -8,7 +8,6 @@
 
     <rule ref="PSR1" />
     <rule ref="PSR2" />
-    <rule ref="PSR12" />
 
     <rule ref="Squiz.Commenting.FunctionComment">
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
