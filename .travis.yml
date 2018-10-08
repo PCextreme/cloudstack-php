@@ -1,9 +1,9 @@
 language: php
 
 php:
-  - 5.5
-  - 5.6
   - 7.0
+  - 7.1
+  - 7.2
   - hhvm
 
 sudo: false
@@ -17,6 +17,7 @@ script:
   - ./vendor/bin/phpunit --coverage-text
   - ./vendor/bin/phpcs src --standard=psr2 -sp
   - ./vendor/infection/infection/bin/infection --threads=4 --min-covered-msi=50
+  - ./vendor/bin/phpcs src --standard=phpcs.ruleset.xml
   - ./vendor/phpstan/phpstan/bin/phpstan analyze src --level=3
 
 after_script:
