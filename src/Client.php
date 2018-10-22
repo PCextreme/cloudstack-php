@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack;
 
 use InvalidArgumentException;
@@ -96,7 +98,7 @@ class Client extends AbstractClient
      *
      * @return array
      */
-    protected function getConfigurableOptions()
+    protected function getConfigurableOptions() : array
     {
         return array_merge($this->getRequiredOptions(), [
             'apiList',
@@ -113,7 +115,7 @@ class Client extends AbstractClient
      *
      * @return array
      */
-    protected function getRequiredOptions()
+    protected function getRequiredOptions() : array
     {
         return [
             'urlApi',
@@ -129,7 +131,7 @@ class Client extends AbstractClient
      * @return void
      * @throws InvalidArgumentException
      */
-    private function assertRequiredOptions(array $options)
+    private function assertRequiredOptions(array $options) : void
     {
         $missing = array_diff_key(array_flip($this->getRequiredOptions()), $options);
 
@@ -167,7 +169,7 @@ class Client extends AbstractClient
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    private function assertRequiredCommandOptions(string $command, array $options = [])
+    private function assertRequiredCommandOptions(string $command, array $options = []) : void
     {
         $apiList = $this->getApiList();
 
@@ -192,7 +194,7 @@ class Client extends AbstractClient
      * @param  string $command
      * @return string
      */
-    public function getCommandMethod(string $command)
+    public function getCommandMethod(string $command) : string
     {
         if (in_array($command, ['login', 'deployVirtualMachine'])) {
             return self::METHOD_POST;
@@ -207,7 +209,7 @@ class Client extends AbstractClient
      * @param  array $params
      * @return string
      */
-    public function getCommandQuery(array $params)
+    public function getCommandQuery(array $params) : string
     {
         return $this->signCommandParameters($params);
     }
@@ -219,7 +221,7 @@ class Client extends AbstractClient
      * @param  array  $options
      * @return string
      */
-    public function getCommandUrl(string $command, array $options = [])
+    public function getCommandUrl(string $command, array $options = []) : string
     {
         $base   = $this->urlApi;
         $params = $this->getCommandParameters($command, $options);
@@ -235,7 +237,7 @@ class Client extends AbstractClient
      * @param  array  $options
      * @return array
      */
-    protected function getCommandParameters(string $command, array $options)
+    protected function getCommandParameters(string $command, array $options) : array
     {
         return array_merge($options, [
             'command'  => $command,
@@ -250,7 +252,7 @@ class Client extends AbstractClient
      * @param  array $params
      * @return string
      */
-    protected function signCommandParameters(array $params = [])
+    protected function signCommandParameters(array $params = []) : string
     {
         if ($this->isSsoEnabled() && is_null($this->ssoKey)) {
             throw new InvalidArgumentException(
@@ -287,7 +289,7 @@ class Client extends AbstractClient
      * @return array
      * @throws RuntimeException
      */
-    public function getApiList()
+    public function getApiList() : array
     {
         if (is_null($this->apiList)) {
             $path = __DIR__.'/../cache/api_list.php';
@@ -310,7 +312,7 @@ class Client extends AbstractClient
      * @param  array $apiList
      * @return void
      */
-    public function setApiList(array $apiList)
+    public function setApiList(array $apiList) : void
     {
         $this->apiList = $apiList;
     }
@@ -322,7 +324,7 @@ class Client extends AbstractClient
      * @param  string $query
      * @return string
      */
-    protected function appendQuery(string $url, string $query)
+    protected function appendQuery(string $url, string $query) : string
     {
         $query = trim($query, '?&');
 
@@ -339,7 +341,7 @@ class Client extends AbstractClient
      * @param  array $params
      * @return string
      */
-    protected function buildQueryString(array $params)
+    protected function buildQueryString(array $params) : string
     {
         // We need to modify the nested array keys to get them accepted by Cloudstack.
         // For example 'details[0][key]' should resolve to 'details[0].key'.
@@ -375,7 +377,7 @@ class Client extends AbstractClient
      * @param  array $params
      * @return array
      */
-    protected static function flattenParams(array $params)
+    protected static function flattenParams(array $params) : array
     {
         $result = [];
 
@@ -398,7 +400,7 @@ class Client extends AbstractClient
      * @return void
      * @throws ClientException
      */
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data) : void
     {
         // Cloudstack returns multidimensional responses, keyed with the
         // command name. To handle errors in a generic way we need to 'reset'
@@ -420,7 +422,7 @@ class Client extends AbstractClient
      * @param  boolean $enable
      * @return self
      */
-    public function enableSso(bool $enable = true)
+    public function enableSso(bool $enable = true) : self
     {
         $this->ssoEnabled = $enable;
 
@@ -431,7 +433,7 @@ class Client extends AbstractClient
      *
      * @return boolean
      */
-    public function isSsoEnabled()
+    public function isSsoEnabled() : bool
     {
         return $this->ssoEnabled;
     }

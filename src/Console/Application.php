@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
@@ -30,7 +32,7 @@ class Application extends BaseApplication
      *
      * @return string A help message
      */
-    public function getHelp()
+    public function getHelp() : string
     {
         return self::$logo . parent::getHelp();
     }
@@ -40,7 +42,7 @@ class Application extends BaseApplication
      *
      * @return array
      */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands() : array
     {
         $commands = array_merge(parent::getDefaultCommands(), [
             new ApiListCommand(),

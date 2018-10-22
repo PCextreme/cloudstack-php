@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack;
 
 use GuzzleHttp\Psr7\Request;
@@ -28,7 +30,7 @@ class RequestFactory
         array $headers = [],
         $body = null,
         string $version = '1.1'
-    ) {
+    ) : Request {
         return new Request($method, $uri, $headers, $body, $version);
     }
 
@@ -38,7 +40,7 @@ class RequestFactory
      * @param  array $options
      * @return array
      */
-    protected function parseOptions(array $options)
+    protected function parseOptions(array $options) : array
     {
         // Should match default values for getRequest
         $defaults = [
@@ -58,7 +60,7 @@ class RequestFactory
      * @param  array       $options
      * @return Request
      */
-    public function getRequestWithOptions($method, $uri, array $options = [])
+    public function getRequestWithOptions($method, $uri, array $options = []) : Request
     {
         $options = $this->parseOptions($options);
 
