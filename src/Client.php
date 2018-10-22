@@ -169,21 +169,51 @@ class Client extends AbstractClient
      */
     private function assertRequiredCommandOptions(string $command, array $options = [])
     {
-        $apiList = $this->getApiList();
-
-        if (!array_key_exists($command, $apiList)) {
+        if (! $this->isCommandValid($command)) {
             throw new RuntimeException(
                 "Call to unsupported API command [{$command}], this call is not present in the API list."
             );
         }
 
-        foreach ($apiList[$command]['params'] as $key => $value) {
-            if (!array_key_exists($key, $options) && (bool) $value['required']) {
-                throw new InvalidArgumentException(
-                    "Missing argument [{$key}] for command [{$command}] must be of type [{$value['type']}]."
-                );
-            }
+        $requiredParameters = $this->getRequiredCommandParameters();
+        $providedParameters = array_keys($options);
+
+        $missing = array_diff($requiredParameters, $providedParameters);
+
+        if (! empty($missing)) {
+            $missing = implode(', ', $missing);
+            
+            throw new InvalidArgumentException(
+                "Missing arguments [{$missing}] for command [{$command}]."
+            );
         }
+    }
+
+    /**
+     * Check if command is supported
+     * @param  string $command
+     * @return boolean
+     */
+    private function isCommandValid(string $command)
+    {
+        return array_key_exists($command, $this->getApiList());
+    }
+
+    /**
+     * Get required parameter names
+     * @param  string $command
+     * @return array
+     */
+    private function getRequiredCommandParameters(string $command)
+    {
+        $commands = $this->getApiList();
+        $parameters = $commands[$command]['params'];
+
+        $required = array_filter($parameters, function ($rules) {
+            return (bool) $rules['required'];
+        });
+
+        return array_keys($required);
     }
 
     /**
