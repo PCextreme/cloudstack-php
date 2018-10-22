@@ -343,7 +343,7 @@ class Client extends AbstractClient
     {
         // We need to modify the nested array keys to get them accepted by Cloudstack.
         // For example 'details[0][key]' should resolve to 'details[0].key'.
-        array_walk($params, function(&$value, $key) {
+        array_walk($params, function (&$value, $key) {
             if (is_array($value)) {
                 $parsedParams = [];
 
@@ -362,7 +362,7 @@ class Client extends AbstractClient
         // to encode the values, but we can't encode the keys. This would otherwise
         // compromise the signature. Therefore we can't use http_build_query().
         $queryParams = $this->flattenParams($params);
-        array_walk($queryParams, function(&$value, $key) {
+        array_walk($queryParams, function (&$value, $key) {
             $value = $key.'='.rawurlencode($value);
         });
 
