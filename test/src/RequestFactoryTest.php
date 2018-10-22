@@ -4,9 +4,11 @@ namespace PCextreme\Cloudstack\Test;
 
 use PCextreme\Cloudstack\RequestFactory;
 use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\TestCase;
+
 use Mockery as m;
 
-class RequestFactoryTest extends \PHPUnit_Framework_TestCase
+class RequestFactoryTest extends TestCase
 {
     /**
      * @var RequestFactory

@@ -5,10 +5,11 @@ namespace PCextreme\Cloudstack\Test;
 use PCextreme\Cloudstack\Client;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\TestCase;
 
 use Mockery as m;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     /**
      * @var AbstractClient

@@ -11,10 +11,11 @@ use PCextreme\Cloudstack\RequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use PHPUnit\Framework\TestCase;
 
 use Mockery as m;
 
-class AbstractClientTest extends \PHPUnit_Framework_TestCase
+class AbstractClientTest extends TestCase
 {
     public function tearDown()
     {

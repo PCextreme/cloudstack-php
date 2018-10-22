@@ -3,8 +3,9 @@
 namespace PCextreme\Cloudstack\Test\Console;
 
 use PCextreme\Cloudstack\Console\Application;
+use PHPUnit\Framework\TestCase;
 
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends TestCase
 {
     /**
      * @var string

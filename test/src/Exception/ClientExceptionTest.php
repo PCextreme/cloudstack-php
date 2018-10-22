@@ -3,8 +3,9 @@
 namespace PCextreme\Cloudstack\Test\Exception;
 
 use PCextreme\Cloudstack\Exception\ClientException;
+use PHPUnit\Framework\TestCase;
 
-class ClientExceptionTest extends \PHPUnit_Framework_TestCase
+class ClientExceptionTest extends TestCase
 {
     /**
      * @var array
