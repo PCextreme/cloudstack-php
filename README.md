@@ -101,9 +101,14 @@ You can also get a list of available CLI commands.
 $ php bin/cloudstack
 ```
 
+## Contributing
+
+This package is open-source and welcomes issues and pull requests from anyone. Before opening pull requests, please read our short [Contribution Guide](./CONTRIBUTING.md).
+
 ## Credits
 
 - [Kevin Dierkx](https://github.com/kevindierkx)
+- [Jesse Kramer](https://github.com/FrontEndCoffee)
 - [All Contributors](https://github.com/pcextreme/cloudstack-php/contributors)
 
 ## License

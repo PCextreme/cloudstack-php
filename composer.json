@@ -35,12 +35,7 @@
         }
     },
     "scripts": {
-        "test": [
-            "./vendor/bin/phpunit --coverage-text",
-            "./vendor/bin/phpcs src --standard=phpcs.ruleset.xml",
-            "./vendor/phpstan/phpstan/bin/phpstan analyze src --level=3",
-            "./vendor/infection/infection/bin/infection --threads=4 --min-covered-msi=50"
-        ]
+        "test" : "make all --keep-going"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
