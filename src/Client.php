@@ -175,14 +175,14 @@ class Client extends AbstractClient
             );
         }
 
-        $requiredParameters = $this->getRequiredCommandParameters();
+        $requiredParameters = $this->getRequiredCommandParameters($command);
         $providedParameters = array_keys($options);
 
         $missing = array_diff($requiredParameters, $providedParameters);
 
         if (! empty($missing)) {
             $missing = implode(', ', $missing);
-            
+
             throw new InvalidArgumentException(
                 "Missing arguments [{$missing}] for command [{$command}]."
             );
@@ -194,7 +194,7 @@ class Client extends AbstractClient
      * @param  string $command
      * @return boolean
      */
-    private function isCommandValid(string $command)
+    protected function isCommandValid(string $command)
     {
         return array_key_exists($command, $this->getApiList());
     }
@@ -204,7 +204,7 @@ class Client extends AbstractClient
      * @param  string $command
      * @return array
      */
-    private function getRequiredCommandParameters(string $command)
+    protected function getRequiredCommandParameters(string $command)
     {
         $commands = $this->getApiList();
         $parameters = $commands[$command]['params'];
@@ -469,11 +469,11 @@ class Client extends AbstractClient
     /**
      * Handle dynamic method calls into the method.
      *
-     * @param  string $method
-     * @param  array  $parameters
+     * @param  mixed $method
+     * @param  array $parameters
      * @return mixed
      */
-    public function __call(string $method, array $parameters)
+    public function __call($method, array $parameters)
     {
         array_unshift($parameters, $method);
 

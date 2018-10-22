@@ -14,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
 
 use Mockery as m;
 
-class AbstractClientTest extends \PHPUnit_Framework_TestCase
+class AbstractClientTest extends TestCase
 {
     public function tearDown()
     {
@@ -143,14 +143,6 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
 
         $parsedResponse = $client->getResponse($mockRequest);
         $this->assertSame('Response', $parsedResponse);
-    }
-
-    private function getMethod($class, $name)
-    {
-        $class = new \ReflectionClass($class);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-        return $method;
     }
 
     public function parseResponseProvider()
