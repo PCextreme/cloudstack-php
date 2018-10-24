@@ -1,4 +1,8 @@
-<?php namespace PCextreme\Cloudstack\Util;
+<?php
+
+declare(strict_types=1);
+
+namespace PCextreme\Cloudstack\Util;
 
 use InvalidArgumentException;
 use PCextreme\Cloudstack\Exception\ClientException;
@@ -13,7 +17,7 @@ trait UrlHelpersTrait
      * @return string
      * @throws InvalidArgumentException
      */
-    public function clientUrl(string $username, string $domainId)
+    public function clientUrl(string $username, string $domainId) : string
     {
         if (is_null($this->urlClient)) {
             throw new InvalidArgumentException(
@@ -47,7 +51,7 @@ trait UrlHelpersTrait
      * @return string
      * @throws InvalidArgumentException
      */
-    public function consoleUrl(string $username, string $domainId, string $virtualMachineId)
+    public function consoleUrl(string $username, string $domainId, string $virtualMachineId) : string
     {
         if (is_null($this->urlConsole)) {
             throw new InvalidArgumentException(

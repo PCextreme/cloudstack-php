@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack\Exception;
 
 use Exception;
@@ -26,6 +28,7 @@ class ClientException extends Exception
 
     /**
      * Returns the exception's response body.
+     * @TODO: Refactor this method, so that it returns a single type.
      *
      * @return array|string
      */

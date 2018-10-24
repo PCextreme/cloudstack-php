@@ -10,6 +10,7 @@ use PCextreme\Cloudstack\Exception\ClientException;
 use PCextreme\Cloudstack\RequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\StreamInterface;
 
 use Mockery as m;
@@ -85,14 +86,15 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
     public function testGetRequest()
     {
         $mockAdapter = m::mock(RequestFactory::class);
-        $mockAdapter->shouldReceive('getRequestWithOptions')->andReturn([]);
+        $mockRequest = new Request('GET', '/test/uri');
+        $mockAdapter->shouldReceive('getRequestWithOptions')->andReturn($mockRequest);
 
         $client = new MockClient([], ['requestFactory' => $mockAdapter]);
 
         $method = $this->getMethod(MockClient::class, 'getRequest');
         $request = $method->invokeArgs($client, ['GET', 'mock-url', []]);
 
-        $this->assertSame([], $request);
+        $this->assertSame($mockRequest, $request);
     }
 
     public function testSendRequestSuccess()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack;
 
 use GuzzleHttp\Client as HttpClient;
@@ -63,9 +65,9 @@ abstract class AbstractClient
      * Return the list of options that can be passed to the HttpClient
      *
      * @param  array $options
-     * @return string[]
+     * @return array
      */
-    protected function getAllowedClientOptions(array $options)
+    protected function getAllowedClientOptions(array $options) : array
     {
         $clientOptions = ['timeout', 'proxy'];
 
@@ -85,7 +87,7 @@ abstract class AbstractClient
      * @param  array  $options
      * @return RequestInterface
      */
-    public function getRequest(string $method, string $url, array $options = [])
+    public function getRequest(string $method, string $url, array $options = []) : RequestInterface
     {
         return $this->createRequest($method, $url, $options);
     }
@@ -98,7 +100,7 @@ abstract class AbstractClient
      * @param  array  $options
      * @return RequestInterface
      */
-    protected function createRequest(string $method, string $url, array $options)
+    protected function createRequest(string $method, string $url, array $options) : RequestInterface
     {
         $factory = $this->getRequestFactory();
 
@@ -111,7 +113,7 @@ abstract class AbstractClient
      * @param  RequestInterface $request
      * @return ResponseInterface
      */
-    protected function sendRequest(RequestInterface $request)
+    protected function sendRequest(RequestInterface $request) : ResponseInterface
     {
         try {
             $response = $this->getHttpClient()->send($request);
@@ -145,7 +147,7 @@ abstract class AbstractClient
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function parseJson(string $content)
+    protected function parseJson(string $content) : array
     {
         $content = json_decode($content, true);
 
@@ -165,7 +167,7 @@ abstract class AbstractClient
      * @param  ResponseInterface $response
      * @return string
      */
-    protected function getContentType(ResponseInterface $response)
+    protected function getContentType(ResponseInterface $response) : string
     {
         return join(';', (array) $response->getHeader('content-type'));
     }
@@ -217,7 +219,7 @@ abstract class AbstractClient
      * @param  RequestFactory $factory
      * @return self
      */
-    public function setRequestFactory(RequestFactory $factory)
+    public function setRequestFactory(RequestFactory $factory) : self
     {
         $this->requestFactory = $factory;
 
@@ -229,7 +231,7 @@ abstract class AbstractClient
      *
      * @return RequestFactory
      */
-    public function getRequestFactory()
+    public function getRequestFactory() : RequestFactory
     {
         return $this->requestFactory;
     }
@@ -240,7 +242,7 @@ abstract class AbstractClient
      * @param  HttpClientInterface $client
      * @return self
      */
-    public function setHttpClient(HttpClientInterface $client)
+    public function setHttpClient(HttpClientInterface $client) : self
     {
         $this->httpClient = $client;
 
@@ -252,7 +254,7 @@ abstract class AbstractClient
      *
      * @return HttpClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient() : HttpClientInterface
     {
         return $this->httpClient;
     }

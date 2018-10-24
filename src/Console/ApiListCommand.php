@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PCextreme\Cloudstack\Console;
 
 use PCextreme\Cloudstack\Client;
@@ -30,7 +32,7 @@ class ApiListCommand extends Command
      * @param  OutputInterface $output
      * @return void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $urlApi    = $this->askUrlApi($input, $output);
         $apiKey    = $this->askApiKey($input, $output);
@@ -71,7 +73,7 @@ class ApiListCommand extends Command
      * @param  OutputInterface $output
      * @return string
      */
-    protected function askUrlApi(InputInterface $input, OutputInterface $output)
+    protected function askUrlApi(InputInterface $input, OutputInterface $output) : string
     {
         $question = new Question(
             'Enter target API url [default: https://api.auroracompute.eu/ams]: ',
@@ -88,7 +90,7 @@ class ApiListCommand extends Command
      * @param  OutputInterface $output
      * @return string
      */
-    protected function askApiKey(InputInterface $input, OutputInterface $output)
+    protected function askApiKey(InputInterface $input, OutputInterface $output) : string
     {
         $question = (new Question('Enter API key: '))
             ->setValidator(function ($answer) {
@@ -110,7 +112,7 @@ class ApiListCommand extends Command
      * @param  OutputInterface $output
      * @return string
      */
-    protected function askSecretKey(InputInterface $input, OutputInterface $output)
+    protected function askSecretKey(InputInterface $input, OutputInterface $output) : string
     {
         $question = (new Question('Enter secret key: '))
             ->setValidator(function ($answer) {
@@ -132,7 +134,7 @@ class ApiListCommand extends Command
      * @param  array           $list
      * @return void
      */
-    protected function processList(OutputInterface $output, array $list = [])
+    protected function processList(OutputInterface $output, array $list = []) : void
     {
         if (empty($list)) {
             throw new \RuntimeException("API list is empty.");
