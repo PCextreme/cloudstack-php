@@ -15,4 +15,4 @@ script:
   - composer run test
 
 after_script:
-  - php vendor/bin/coveralls
+  - php vendor/bin/php-coveralls
