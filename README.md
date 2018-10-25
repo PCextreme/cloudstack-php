@@ -14,7 +14,7 @@ This package makes it simple to integrate the Cloudstack API in your PHP applica
 
 The following versions of PHP are supported:
 
-* PHP 7.x
+* PHP 7.1 or higher
 
 ### Support for PHP 5.x has been dropped
 
