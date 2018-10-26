@@ -11,8 +11,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source
 
 script:
-  - mkdir -p build/logs
-  - composer run test
+  - make all --keep-going
 
 after_script:
   - php vendor/bin/php-coveralls
