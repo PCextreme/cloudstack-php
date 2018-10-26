@@ -7,5 +7,10 @@
     },
     "logs": {
         "text": "build/logs/infection-log.txt"
+    },
+    "mutators": {
+        "@default": true,
+        "IdenticalEqual": false,
+        "NotIdenticalNotEqual": false
     }
 }
