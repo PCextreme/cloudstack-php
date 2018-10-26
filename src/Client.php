@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace PCextreme\Cloudstack;
 
-use InvalidArgumentException;
 use PCextreme\Cloudstack\Exception\ClientException;
+use InvalidArgumentException;
 use PCextreme\Cloudstack\Util\UrlHelpersTrait;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 
 class Client extends AbstractClient
 {
@@ -63,6 +64,11 @@ class Client extends AbstractClient
      * @var boolean
      */
     private $ssoEnabled = false;
+
+    /**
+     * @var FilesystemCache
+     */
+    private $cache;
 
     /**
      * Constructs a new Cloudstack client instance.
@@ -322,15 +328,13 @@ class Client extends AbstractClient
     public function getApiList() : array
     {
         if (is_null($this->apiList)) {
-            $path = __DIR__.'/../cache/api_list.php';
-
-            if (!file_exists($path)) {
+            if (! $this->cache()->has('api.list')) {
                 throw new RuntimeException(
                     "Cloudstack Client API list not found. This file needs to be generated before using the client."
                 );
             }
 
-            $this->apiList = require $path;
+            $this->apiList = $this->cache()->get('api.list');
         }
 
         return $this->apiList;
@@ -466,6 +470,19 @@ class Client extends AbstractClient
     public function isSsoEnabled() : bool
     {
         return $this->ssoEnabled;
+    }
+
+    /**
+     * Get cache driver instance
+     * @return FilesystemCache
+     */
+    private function cache() : FilesystemCache
+    {
+        if (! isset($this->cache)) {
+            $this->cache = new FilesystemCache('', 0, __DIR__.'/../../cache');
+        }
+
+        return $this->cache;
     }
 
     /**
