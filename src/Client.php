@@ -171,21 +171,51 @@ class Client extends AbstractClient
      */
     private function assertRequiredCommandOptions(string $command, array $options = []) : void
     {
-        $apiList = $this->getApiList();
-
-        if (!array_key_exists($command, $apiList)) {
+        if (! $this->isCommandValid($command)) {
             throw new RuntimeException(
                 "Call to unsupported API command [{$command}], this call is not present in the API list."
             );
         }
 
-        foreach ($apiList[$command]['params'] as $key => $value) {
-            if (!array_key_exists($key, $options) && (bool) $value['required']) {
-                throw new InvalidArgumentException(
-                    "Missing argument [{$key}] for command [{$command}] must be of type [{$value['type']}]."
-                );
-            }
+        $requiredParameters = $this->getRequiredCommandParameters($command);
+        $providedParameters = array_keys($options);
+
+        $missing = array_diff($requiredParameters, $providedParameters);
+
+        if (! empty($missing)) {
+            $missing = implode(', ', $missing);
+
+            throw new InvalidArgumentException(
+                "Missing arguments [{$missing}] for command [{$command}]."
+            );
         }
+    }
+
+    /**
+     * Check if command is supported
+     * @param  string $command
+     * @return boolean
+     */
+    protected function isCommandValid(string $command)
+    {
+        return array_key_exists($command, $this->getApiList());
+    }
+
+    /**
+     * Get required parameter names
+     * @param  string $command
+     * @return array
+     */
+    protected function getRequiredCommandParameters(string $command)
+    {
+        $commands = $this->getApiList();
+        $parameters = $commands[$command]['params'];
+
+        $required = array_filter($parameters, function ($rules) {
+            return (bool) $rules['required'];
+        });
+
+        return array_keys($required);
     }
 
     /**
@@ -441,11 +471,11 @@ class Client extends AbstractClient
     /**
      * Handle dynamic method calls into the method.
      *
-     * @param  string $method
-     * @param  array  $parameters
+     * @param  mixed $method
+     * @param  array $parameters
      * @return mixed
      */
-    public function __call(string $method, array $parameters)
+    public function __call($method, array $parameters)
     {
         array_unshift($parameters, $method);
 
