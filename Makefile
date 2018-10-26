@@ -34,7 +34,7 @@ test-unit: $(PHPUNIT) vendor build/logs
 	$(PHPUNIT) --coverage-text
 
 test-infection: $(INFECTION) vendor build/logs
-	$(INFECTION) --threads=4 --min-covered-msi=50
+	$(INFECTION) --threads=4 --only-covered --min-covered-msi=50
 
 
 #
