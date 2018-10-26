@@ -34,9 +34,6 @@
             "PCextreme\\Cloudstack\\Test\\": "test/src/"
         }
     },
-    "scripts": {
-        "test" : "make all --keep-going"
-    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
