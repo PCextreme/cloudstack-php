@@ -5,8 +5,8 @@
     </php>
 
     <testsuites>
-        <testsuite name="all">
-            <directory>./test</directory>
+        <testsuite name="unit">
+            <directory>./test/src</directory>
         </testsuite>
     </testsuites>
 
