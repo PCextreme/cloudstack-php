@@ -479,7 +479,7 @@ class Client extends AbstractClient
     private function cache() : FilesystemCache
     {
         if (! isset($this->cache)) {
-            $this->cache = new FilesystemCache('', 0, __DIR__.'/../../cache');
+            $this->cache = new FilesystemCache('', 0, __DIR__.'/../cache');
         }
 
         return $this->cache;
