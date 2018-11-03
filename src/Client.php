@@ -23,7 +23,7 @@ class Client extends AbstractClient
     /**
      * @var string
      */
-    private $urlApi;
+    protected $urlApi;
 
     /**
      * @var string
