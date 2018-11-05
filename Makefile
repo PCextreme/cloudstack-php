@@ -3,6 +3,7 @@ PHPCS=./vendor/bin/phpcs
 PHPCBF=./vendor/bin/phpcbf
 PHPSTAN=./vendor/phpstan/phpstan/bin/phpstan
 INFECTION=./vendor/infection/infection/bin/infection
+BEHAT=./vendor/bin/behat
 
 .PHONY: all
 
@@ -20,21 +21,25 @@ $(PHPCS): vendor
 $(PHPCBF): vendor
 $(PHPSTAN): vendor
 $(INFECTION): vendor
+$(BEHAT): vendor
 
 
 #
 #  T E S T S
 #
 
-.PHONY: test test-unit test-infection
+.PHONY: test test-e2e test-unit test-infection
 
-test: test-unit test-infection
+test: test-e2e test-unit test-infection
 
 test-unit: $(PHPUNIT) vendor build/logs
 	$(PHPUNIT) --coverage-text
 
 test-infection: $(INFECTION) vendor build/logs
 	$(INFECTION) --threads=4 --only-covered --min-covered-msi=50
+
+test-e2e: $(BEHAT) vendor
+	$(BEHAT)
 
 
 #
